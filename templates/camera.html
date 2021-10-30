@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>This is the camera web page</title>
+	</head>
+
+	<body>
+		<h1>Camera live stream</h1>
+
+		<img src="{{ url_for('video') }}">
+		<p><a href= "{{ url_for("index") }}">Go back</a></p>
+	</body>
+</html>
