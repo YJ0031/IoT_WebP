@@ -12,16 +12,13 @@ import plotly.express as px
 from dash_application import create_dash_application
 
 #Imports for controlling LED
-from gpiozero import LED
-
+import os 
+import json
 ############## Main code begins here ####################
 
 app = Flask(__name__)
 create_dash_application(app)
 
-led_state = False;
-led = LED(17)
-led.off()
 
 ############# Home page related code
 @app.route('/')
@@ -58,21 +55,31 @@ def home_data():
     return render_template('home.html')
 
 #############LED related code
-@app.route('/led', method=['POST'])
-def onoff():
-    global led_state
-    if led_state == False:
-        led.on()
-        led_state = not led_state
-        return jsonify(status="on")
-    else:
-        led.off()
-        led_state = not led_state
-        return jsonify(status="off")
+@app.route('/_led')
+def _led():
+    state = request.args.get("state")
+    s = {
+            "led" : state
+    }
+    fname = os.path.join(app.static_folder, "sample.json")
+
+    with open(fname, "w") as outfile:
+        jsson.dump(s, outfile)
+
+    return ""
+
+@app.route('/read')
+def readJSON():
+    fname = os.path.join(app.static_folder, "sample.json")
+
+    with open(fname, "r") as openfile:
+        json_obj = json.load(openfile)
+    return json_obj['ledl']
 
 @app.route('/led_control')
 def led_control():
     return render_template('control_led.html')
+
 
 if __name__ == '__main__':
 

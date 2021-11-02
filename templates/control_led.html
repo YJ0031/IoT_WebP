@@ -3,14 +3,33 @@
 <html>
 	<head>
 		<title>This is led controling</title>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 	</head>
 
 	<body>
-		<h1>LED Controller</h1>
-		<p>Click on button to turn ON/OFF LED</p>
-		<button onclick="onoff()">Button</button>
-		<p id="status"> Status : unknown <p>
-		<script src="static/index.js">
-		</script>
+	<script>
+		$(
+			function()
+			{
+				$('#flip').change(function()
+
+					{
+						$.getJSON('/led', {state:$('#flip').val()});
+					}
+				);
+			}
+		);
+	</script>
+	<div><h3>NodeMCU Toggle LED</h3></div>
+	<form>
+		<select name="flip" id="flip" data-role="slider" style="float: left;">
+			<option value="off">off</option>
+			<option value="on">on</option>
+		</select>
+	</form>
+
+	<div><h3>This toggles LED</h3></div>
 	</body>
 </html>
